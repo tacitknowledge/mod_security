@@ -135,7 +135,7 @@ end
 # setup apache module loading
 apache_module 'unique_id'
 
-template "#{node['apache']['dir']}/mods-available/mod-security.load" do
+template "#{node['apache']['dir']}/mods-available/#{node['mod_security']['mod_load']}" do
   source 'mods/mod-security.load.erb'
   owner 'root'
   group 'root'
@@ -147,7 +147,7 @@ template "#{node['apache']['dir']}/mods-available/mod-security.load" do
   notifies :restart, 'service[apache2]', :delayed
 end
 
-template "#{node['apache']['dir']}/mods-available/mod-security.conf" do
+template "#{node['apache']['dir']}/mods-available/#{node['mod_security']['mod_conf']}" do
   source 'mods/mod-security.conf.erb'
   owner 'root'
   group 'root'

@@ -4,10 +4,16 @@
 case node['platform_family']
 when 'rhel', 'arch'
   default['mod_security']['dir']                 = '/etc/httpd/mod_security'
+  default['mod_security']['mod_conf']            = 'mod-security.conf'
+  default['mod_security']['mod_load']            = 'mod-security.load'
 when 'windows'
   default['mod_security']['dir']                 = 'C:\Program Files\ModSecurity IIS'
+  default['mod_security']['mod_conf']            = 'mod-security.conf'
+  default['mod_security']['mod_load']            = 'mod-security.load'
 else
   default['mod_security']['dir']                 = '/etc/apache2/mod_security'
+  default['mod_security']['mod_conf']            = 'security2.conf'
+  default['mod_security']['mod_load']            = 'security2.load'
 end
 
 # Apache MPM in use
