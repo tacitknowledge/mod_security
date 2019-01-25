@@ -135,6 +135,12 @@ end
 # setup apache module loading
 apache_module 'unique_id'
 
+%w[security2.conf security2.load].each do |file|
+  file "#{node['apache']['dir']}/mods-available/#{file}"
+    action :delete
+    notifies :restart, 'service[apache2]', :delayed
+end
+
 template "#{node['apache']['dir']}/mods-available/mod-security.load" do
   source 'mods/mod-security.load.erb'
   owner 'root'
