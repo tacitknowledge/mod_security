@@ -135,12 +135,15 @@ end
 # setup apache module loading
 apache_module 'unique_id'
 
-%w[mods-available mods-enabled].each do |dir|
-  %w[security2.conf security2.load].each do |file|
-    file "#{node['apache']['dir']}/#{dir}/#{file}" do
-      action :delete
-      notifies :restart, 'service[apache2]', :delayed
-    end
+%w[security2.conf security2.load].each do |file|
+  link "#{node['apache']['dir']}/mods-enabled/#{file}" do
+    action :delete
+    only_if "test -L #{node['apache']['dir']}/mods-enabled/#{file}"
+    notifies :restart, 'service[apache2]', :delayed
+  end
+  file "#{node['apache']['dir']}/mods-available/#{file}" do
+    action :delete
+    notifies :restart, 'service[apache2]', :delayed
   end
 end
 
