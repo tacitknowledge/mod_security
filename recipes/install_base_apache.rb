@@ -136,9 +136,10 @@ end
 apache_module 'unique_id'
 
 %w[security2.conf security2.load].each do |file|
-  file "#{node['apache']['dir']}/mods-available/#{file}"
+  file "#{node['apache']['dir']}/mods-available/#{file}" do
     action :delete
     notifies :restart, 'service[apache2]', :delayed
+  end
 end
 
 template "#{node['apache']['dir']}/mods-available/mod-security.load" do
